@@ -1,0 +1,90 @@
+<html>
+
+<body>
+    <table border="1">
+        <tr>
+            <td valign="top">
+                <%-- -------- Include menu HTML code -------- --%>
+                <jsp:include page="menu.html" />
+            </td>
+            <td>
+
+            <%-- Set the scripting language to Java and --%>
+            <%-- Import the java.sql package --%>
+            <%@ page language="java" import="java.sql.*" %>
+    
+            <%-- -------- Open Connection Code -------- --%>
+            <%
+                try {
+                    // Load Oracle Driver class file
+                    DriverManager.registerDriver
+                        (new com.microsoft.sqlserver.jdbc.SQLServerDriver());
+    
+                    // Make a connection to the Oracle datasource "cse132b"
+                    Connection conn = DriverManager.getConnection
+                        ("jdbc:sqlserver://om.ucsd.edu:1433;databaseName=cse132b", 
+                            "user", "pass");
+
+            %>
+
+
+//stmt code
+            <%
+            // Create the statement
+            Statement statement = conn.createStatement();
+
+            ResultSet rs = statement.executeQuery("SELECT * FROM thesis_committee");
+            %>
+
+            //presentation code
+            <table>
+               <tr>
+                 <th>student_id</th>
+                 <th>faculty_name</th>
+                 <th>thesis_name</th>
+               </tr>
+
+
+            <%
+               //Iterate over the ResultSet
+               while( re.next() ){
+            %>
+               //Iteration Code
+              <tr>
+                <%-- Get the student_id--%>
+                <td><% = rs.getString("student_id")%></td>
+                <%-- Get the faculty_name--%>
+                <td><% = rs.getString("faculty_name")%></td>
+                <%-- Get the thesis_name--%>
+                <td><% = rs.getString"thesis_name")%></td>
+              </td>
+
+            <%
+               }
+            %>
+</table>
+
+
+ <%-- -------- Close Connection Code -------- --%>
+            <%
+                    // Close the ResultSet
+                    rs.close();
+    
+                    // Close the Statement
+                    statement.close();
+    
+                    // Close the Connection
+                    conn.close();
+                } catch (SQLException sqle) {
+                    out.println(sqle.getMessage());
+                } catch (Exception e) {
+                    out.println(e.getMessage());
+                }
+            %>
+                </table>
+            </td>
+        </tr>
+    </table>
+</body>
+
+</html>

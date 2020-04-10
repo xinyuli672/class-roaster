@@ -1,0 +1,98 @@
+CREATE TABLE student(
+    SSN int NOT NULL,
+    student_id VARCHAR(10) NOT NULL,
+    firstname VARCHAR(40) NOT NULL,
+    middlename VARCHAR(40),
+    lastname VARCHAR(40) NOT NULL,
+    residency VARCHAR(10) NOT NULL,
+    enrollment_status boolean NOT NULL,
+    CONSTRAINT pk_student PRIMARY KEY(ssn)
+);
+student(SSN, student_id, firstname, middlename, lastname, residency, enrollment_status)
+
+CREATE TABLE period_attend(
+    student_ssn int NOT NULL,
+    start_date date NOT NULL,
+    end_date date NOT NULL,
+    CONSTRAINT pk_pa PRIMARY KEY(student_ssn,start_date,end_date),
+    FOREIGN KEY (student_ssn) REFERENCES student
+);
+period_attend(student_ssn, start_date, end_date)
+
+CREATE TABLE have_taken(
+    student_ssn int NOT NULL,
+	course_number VARCHAR(10) NOT NULL,
+	quarter VARCHAR(10) NOT NULL,
+	year int NOT NULL,
+	grade_option VARCHAR(10) NOT NULL,
+	unit int NOT NULL,
+	grade VARCHAR(2) NOT NULL,
+    CONSTRAINT pk_ht PRIMARY KEY(student_ssn,course_number),
+	FOREIGN KEY (student_ssn) REFERENCES student,
+	FOREIGN KEY (course_number) REFERENCES class
+);
+
+have_taken(student_ssn, course_number, quarter, year, grade_option, unit, grade)
+
+CREATE TABLE course(
+    	course_id VARCHAR(10) NOT NULL,
+    	grading char NOT NULL,
+	unit_min int NOT NULL,
+	unit_max int NOT NULL,
+	lab_work boolean NOT NULL,
+	consent_of_instructor boolean NOT NULL,
+    	CONSTRAINT pk_course PRIMARY KEY(course_id)
+);
+
+course(course_id, grading, unit_min, unit_max, lab_work, consent_of_instructor)
+
+
+CREATE TABLE class(
+        course_number VARCHAR(10) NOT NULL,
+	title VARCHAR(40) NOT NULL,
+	currently_taught boolean NOT NULL,
+	quarter_next varchar(10) NOT NULL,
+	year_next int NOT NULL,
+   	CONSTRAINT pk_class PRIMARY KEY(course_number),
+	FOREIGN KEY (course_number) REFERENCES course
+);
+
+classes(course_number, title, currently_taught, quarter_next, year_next)
+
+
+CREATE TABLE section(
+        course_number VARCHAR(10) NOT NULL,
+	section_number VARCHAR(10) NOT NULL,
+	quarter varchar(10) NOT NULL,
+	year int NOT NULL,
+	enrollment_limit int NOT NULL,
+   	CONSTRAINT pk_section PRIMARY KEY(course_number, section_number),
+	FOREIGN KEY (course_number) REFERENCES class
+);
+
+section(course_number, section_number, quarter, year, enrollment_limit)
+
+CREATE TABLE enrolled(
+    student_ssn int NOT NULL,
+	section_number VARCHAR(10) NOT NULL,
+	grade_option VARCHAR(10) NOT NULL,
+	unit int NOT NULL,
+    CONSTRAINT pk_enrolled PRIMARY KEY(student_ssn, section_number),
+	FOREIGN KEY (student_ssn) REFERENCES student,
+	FOREIGN KEY (section_number) REFERENCES section(section_number)
+);
+
+enrolled(student_ssn, section_number, grade_option, unit)
+
+
+
+
+student(SSN, student_id, firstname, middlename, lastname, residency, enrollment_status)
+
+course(course_id, grading, unit_min, unit_max, lab_work, consent_of_instructor)
+
+classes(course_number, title, currently_taught, quarter_next, year_next)
+
+section(course_number, section_number, quarter, year, enrollment_limit)
+
+enrolled(student_ssn, section_number, grade_option, unit)

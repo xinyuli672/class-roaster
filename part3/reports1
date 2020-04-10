@@ -1,0 +1,9 @@
+//a. display the classses currently taken by student X:
+SELECT s.SSN, s.id,.FIRSTNAME, s.MIDDLENAME, s.LASTNAME, s.
+FROM STUDENT s, CLASSES c, ENROLLED e
+WHERE s.student_id = e.student_id AND
+      s.erollment_status = TRUE  AND
+      e.section_id = c.section_id AND
+      c.quarter = 'SPRING' AND
+      c.year = '2018'
+GROUP BY s.id, s.FIRST_NAME, s.LAST_NAME

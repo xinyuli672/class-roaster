@@ -1,0 +1,30 @@
+//Menu HTML Code
+<b>Data Entry Menu</b> 
+<ul> 
+    <li> 
+        <a href="courses.jsp">Courses<a> 
+    </li> 
+    <li> 
+        <a href="classes.jsp">Classes<a> 
+    </li> 
+    <li> 
+        <a href="students.jsp">Students<a> 
+    </li> 
+    <li> 
+        <a href="faculty.jsp">Faculty<a> 
+    </li> 
+    <li> 
+        <a href="courseenrollment.jsp">CourseEnrollment<a> 
+    </li> 
+    <li> 
+        <a href="classestakeninthepast.jsp">ClassesTakenInThePast<a> 
+    </li>
+    <li> 
+        <a href="thesiscommitteessubmission.jsp">ThesisCommitteesSubmission<a> 
+    </li>
+    <li> 
+        <a href="probationinfosubmission.jsp">ProbationInfoSubmission<a> 
+    </li> 
+</ul>
+
+

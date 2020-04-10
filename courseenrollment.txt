@@ -1,0 +1,138 @@
+<html>
+
+<body>
+    <table border="1">
+        <tr>
+            <td valign="top">
+                <%-- -------- Include menu HTML code -------- --%>
+                <jsp:include page="menu.html" />
+            </td>
+            <td>
+
+            <%-- Set the scripting language to Java and --%>
+            <%-- Import the java.sql package --%>
+            <%@ page language="java" import="java.sql.*" %>
+    
+            <%-- -------- Open Connection Code -------- --%>
+            <%
+                try {
+                    // Load Oracle Driver class file
+                    DriverManager.registerDriver
+                        (new com.microsoft.sqlserver.jdbc.SQLServerDriver());
+    
+                    // Make a connection to the Oracle datasource "cse132b"
+                    Connection conn = DriverManager.getConnection
+                        ("jdbc:sqlserver://om.ucsd.edu:1433;databaseName=cse132b", 
+                            "user", "pass");
+
+            %>
+            <%-- -------- Insertion Code -------- --%>
+            <%
+            // Check if an insertion is requested
+            String action = request.getParameter("action"); 
+            if (action != null && action.equals("insert")) {
+
+                   conn.setAutoCommit(false);
+
+                   // Create the prepared statement and use it to 
+                   // INSERT the enrolled attrs INTO the enrolled table. 
+                   PreparedStatementpstmt= conn.prepareStatement( ("INSERT INTO enrolled VALUES (?, ?, ?, ?, ?)"));
+
+                   pstmt.setString(1, request.getParameter("student_id"))); 
+                   pstmt.setString(2, request.getParameter("course_id"));
+                   pstmt.setString(3, request.getParameter("section_id"));
+                   pstmt.setString(4, request.getParameter("grading"));
+                   pstmt.setInt(5, Integer.parseInt(request.getParameter("unit")));
+
+                   pstmt.executeUpdate();
+
+                   conn.commit();
+                   conn.setAutoCommit(true);
+            }
+            
+
+
+            <%-- -------- Statement Code -------- --%>
+            <%
+            // Create the statement
+            Statement statement = conn.createStatement();
+
+            ResultSet rs = statement.executeQuery("SELECT * FROM enrolled");
+            %>
+
+            <%-- -------- Presentation Code -------- --%>
+            <table>
+               <tr>
+                 <th>student_id</th>
+                 <th>course_id</th>
+                 <th>section_id</th>
+                 <th>grading</th>
+                 <th>unit</th>
+                 </tr>
+
+
+            <%-- -------- Insert From Code -------- --%>
+            <tr>
+              <form action="enrolled.jsp" method="get">
+                <input type="hidden" value="insert" name="action">
+                <th><input value="" name="SSN" size="10"></th>
+
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+
+            <%
+               //Iterate over the ResultSet
+               while( re.next() ){
+            %>
+
+            <%-- -------- Iteration Code -------- --%>
+              <tr>
+                <%-- Get the student_id--%>
+                <td><% = rs.getString("student_id")%></td>
+                <%-- Get the course_id--%>
+                <td><% = rs.getString("course_id")%></td>
+                <%-- Get the section_id--%>
+                <td><% = rs.getString("section_id")%></td>
+                <%-- Get the grading--%>
+                <td><% = rs.getString("grading")%></td>
+                <%-- Get the unit--%>
+                <td><% = rs.getInt("unit")%></td>
+              </td>
+
+            <%
+               }
+            %>
+</table>
+
+
+ <%-- -------- Close Connection Code -------- --%>
+            <%
+                    // Close the ResultSet
+                    rs.close();
+    
+                    // Close the Statement
+                    statement.close();
+    
+                    // Close the Connection
+                    conn.close();
+                } catch (SQLException sqle) {
+                    out.println(sqle.getMessage());
+                } catch (Exception e) {
+                    out.println(e.getMessage());
+                }
+            %>
+                </table>
+            </td>
+        </tr>
+    </table>
+</body>
+
+</html>
